@@ -6,7 +6,7 @@ import 'package:not_ification/page/homepage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService().init();
+  await NotificationService().initialize();
   runApp(const MyApp());
 }
 

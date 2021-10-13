@@ -17,57 +17,128 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     TextEditingController textControllerNama = TextEditingController();
     TextEditingController textControllerPesan = TextEditingController();
+    TextEditingController textControllerWaktu = TextEditingController();
     MainController mainController = Get.put(MainController());
+
+    void submitForm() {
+      mainController.namaPengirim = textControllerNama.text;
+      mainController.isiPesan = textControllerPesan.text;
+      mainController.waktuDelay = int.parse(textControllerWaktu.text);
+    }
+
+    void clearForm() {
+      textControllerNama.clear();
+      textControllerPesan.clear();
+      textControllerWaktu.clear();
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text("Nama"),
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: TextField(
-                      controller: textControllerNama,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text("Nama"),
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextField(
+                    controller: textControllerNama,
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text("Pesan"),
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextField(
+                    controller: textControllerPesan,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text("Delay"),
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: TextField(
+                    controller: textControllerWaktu,
+                  ),
+                ),
+              ],
             ),
             Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 3,
+                  color: Colors.blue,
+                ),
+              ),
+              child: Column(
                 children: [
-                  Text("Pesan"),
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: TextField(
-                      controller: textControllerPesan,
-                    ),
+                  // INSTANT
+                  ElevatedButton(
+                    onPressed: () async {
+                      submitForm();
+                      NotificationService().instantNotification();
+                      clearForm();
+                    },
+                    child: Text("Instant"),
+                  ),
+
+                  // IMAGE
+                  ElevatedButton(
+                    onPressed: () async {
+                      submitForm();
+                      NotificationService().imageNotification();
+                      clearForm();
+                    },
+                    child: Text("Image"),
+                  ),
+
+                  // STYLISH
+                  ElevatedButton(
+                    onPressed: () async {
+                      submitForm();
+                      NotificationService().stylishNotification();
+                      clearForm();
+                    },
+                    child: Text("Stylish"),
+                  ),
+
+                  // SCHEDULED
+                  ElevatedButton(
+                    onPressed: () async {
+                      submitForm();
+                      NotificationService().scheduledNotification();
+                      clearForm();
+                    },
+                    child: Text("Scheduled"),
+                  ),
+
+                  // CANCEL
+                  ElevatedButton(
+                    onPressed: () async {
+                      NotificationService().cancelNotification();
+                    },
+                    child: Text("Cancel"),
                   ),
                 ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: ElevatedButton(
-                onPressed: () async {
-                  mainController.namaPengirim = textControllerNama.text;
-                  mainController.isiPesan = textControllerPesan.text;
-                  NotificationService()
-                      .selectNotification(textControllerNama.text);
-                  textControllerNama.clear();
-                  textControllerPesan.clear();
-                },
-                child: Text("show"),
               ),
             ),
           ],
