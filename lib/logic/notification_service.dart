@@ -123,7 +123,39 @@ class NotificationService {
       mainController.namaPengirim,
       mainController.isiPesan,
       tz.TZDateTime.now(tz.local).add(
-        Duration(seconds: mainController.waktuDelay!),
+        Duration(
+          seconds: mainController.delayDetik!,
+          minutes: mainController.delayMenit!,
+          hours: mainController.delayJam!,
+        ),
+      ),
+      platform,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+    );
+  }
+
+  Future showNotification() async {
+    // TimeZone Configuration
+    tz.initializeTimeZones();
+    final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName!));
+
+    var android = AndroidNotificationDetails(
+      "id",
+      "channel",
+      channelDescription: "description",
+    );
+
+    var platform = NotificationDetails(android: android);
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      3,
+      mainController.namaPengirim,
+      mainController.isiPesan,
+      tz.TZDateTime.now(tz.local).add(
+        Duration(seconds: mainController.delayDetik!),
       ),
       platform,
       androidAllowWhileIdle: true,
