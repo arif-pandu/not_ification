@@ -16,18 +16,20 @@ class _CarouselThreeState extends State<CarouselThree> {
   @override
   Widget build(BuildContext context) {
     MainController mainController = Get.put(MainController());
+    Color fieldColor = Color(0xff91C788);
+    Color textColor = Color(0xff464F41);
 
     List waktuJam = [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
+      00,
+      01,
+      02,
+      03,
+      04,
+      05,
+      06,
+      07,
+      08,
+      09,
       10,
       11,
       12,
@@ -68,7 +70,7 @@ class _CarouselThreeState extends State<CarouselThree> {
           height: 50,
           width: 50,
           decoration: BoxDecoration(
-            color: Colors.blueAccent,
+            color: fieldColor,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Center(
@@ -76,7 +78,7 @@ class _CarouselThreeState extends State<CarouselThree> {
               waktuJam[index].toString(),
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.black,
+                color: textColor,
                 fontWeight: FontWeight.bold,
               ),
             ),

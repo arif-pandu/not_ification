@@ -6,7 +6,7 @@ class MainController extends GetxController {
 
   bool? pakaiTimer;
 
-  int? delayDetik;
-  int? delayMenit;
-  int? delayJam;
+  int delayDetik = 1;
+  int delayMenit = 0;
+  int delayJam = 0;
 }

@@ -18,11 +18,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool timerDipakai = false;
+  Color bgColor = Color(0xffFEFFDE);
+  Color fieldColor = Color(0xff91C788);
+  Color textColor = Color(0xff464F41);
   @override
   Widget build(BuildContext context) {
     TextEditingController textControllerNama = TextEditingController();
     TextEditingController textControllerPesan = TextEditingController();
     TextEditingController textControllerWaktu = TextEditingController();
+
+    bool isKosong = false;
 
     MainController mainController = Get.put(MainController());
 
@@ -37,200 +42,351 @@ class _HomePageState extends State<HomePage> {
       textControllerWaktu.clear();
     }
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    showDialogAlert(context) {
+      // set up the button
+      Widget okButton = ElevatedButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        backgroundColor: bgColor,
+        title: Text(
+          "Fill the Name and Message please",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: textColor,
+          ),
+        ),
+      );
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
+    showDialogAlertPesan(context) {
+      // set up the button
+      Widget okButton = ElevatedButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        backgroundColor: bgColor,
+        title: Text(
+          "Fill the Message please",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: textColor,
+          ),
+        ),
+      );
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
+    showDialogAlertNama(context) {
+      // set up the button
+      Widget okButton = ElevatedButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        backgroundColor: bgColor,
+        title: Text(
+          "Fill the Name please",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: textColor,
+          ),
+        ),
+      );
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
+    return GestureDetector(
+      //BIAR FLOAT KEYBOARD ILANG KALO GK FOKUS
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: bgColor,
+        resizeToAvoidBottomInset: false,
+        body: Stack(
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: TextField(
-                controller: textControllerNama,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  hintText: "Name",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Colors.blue.shade100,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: TextField(
-                controller: textControllerPesan,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  hintText: "Message",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Delayed",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                CupertinoSwitch(
-                  value: timerDipakai,
-                  onChanged: (value) {
-                    setState(() {
-                      timerDipakai = value;
-                      mainController.pakaiTimer = timerDipakai;
-                      print(mainController.pakaiTimer.toString());
-                    });
-                  },
-                ),
-                Text(
-                  "Instant",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-
-            Visibility(
-              visible: mainController.pakaiTimer == true ? true : false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    height: 60,
-                    width: 60,
-                    color: Colors.transparent,
-                    child: CarouselOne(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    height: 60,
-                    width: 60,
-                    color: Colors.transparent,
-                    child: CarrouselTwo(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    height: 60,
-                    width: 60,
-                    color: Colors.transparent,
-                    child: CarouselThree(),
-                  ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                submitForm();
-                NotificationService().showNotification();
-              },
+            Align(
+              alignment: Alignment(1, -1),
               child: Container(
-                margin: EdgeInsets.all(20),
-                height: 50,
-                width: 100,
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    "SEND",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                margin: EdgeInsets.only(top: 50, right: 20),
+                child: Container(
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    color: fieldColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "?",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: TextField(
+                      controller: textControllerNama,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: textColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "Name",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: fieldColor,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: TextField(
+                      controller: textControllerPesan,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: textColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "Message",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: fieldColor,
+                      ),
+                    ),
+                  ),
 
-            // Container(
-            //   margin: const EdgeInsets.all(10),
-            //   padding: const EdgeInsets.all(10),
-            //   decoration: BoxDecoration(
-            //     border: Border.all(
-            //       width: 3,
-            //       color: Colors.blue,
-            //     ),
-            //   ),
-            //   child: Column(
-            //     children: [
-            //       // INSTANT
-            //       ElevatedButton(
-            //         onPressed: () async {
-            //           submitForm();
-            //           NotificationService().instantNotification();
-            //           clearForm();
-            //         },
-            //         child: Text("Instant"),
-            //       ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "sec",
+                              style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              height: 60,
+                              width: 60,
+                              color: Colors.transparent,
+                              child: CarouselOne(),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "min",
+                              style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              height: 60,
+                              width: 60,
+                              color: Colors.transparent,
+                              child: CarrouselTwo(),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "hour",
+                              style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              height: 60,
+                              width: 60,
+                              color: Colors.transparent,
+                              child: CarouselThree(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
 
-            //       // IMAGE
-            //       ElevatedButton(
-            //         onPressed: () async {
-            //           submitForm();
-            //           NotificationService().imageNotification();
-            //           clearForm();
-            //         },
-            //         child: Text("Image"),
-            //       ),
+                  GestureDetector(
+                    onTap: () async {
+                      if (textControllerNama.text.isNotEmpty &&
+                          textControllerPesan.text.isNotEmpty) {
+                        submitForm();
+                        await NotificationService().showNotification();
+                        clearForm();
+                        print("Detik : " +
+                            mainController.delayDetik.toString() +
+                            " Menit : " +
+                            mainController.delayMenit.toString() +
+                            " Jam : " +
+                            mainController.delayJam.toString());
+                      } else if (textControllerNama.text.isEmpty &&
+                          textControllerPesan.text.isEmpty) {
+                        showDialogAlert(context);
+                      } else if (textControllerNama.text.isNotEmpty &&
+                          textControllerPesan.text.isEmpty) {
+                        showDialogAlertPesan(context);
+                      } else if (textControllerNama.text.isEmpty &&
+                          textControllerPesan.text.isNotEmpty) {
+                        showDialogAlertNama(context);
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      height: 50,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        color: fieldColor,
+                        borderRadius: BorderRadius.circular(7.5),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "SEND",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
 
-            //       // STYLISH
-            //       ElevatedButton(
-            //         onPressed: () async {
-            //           submitForm();
-            //           NotificationService().stylishNotification();
-            //           clearForm();
-            //         },
-            //         child: Text("Stylish"),
-            //       ),
+                  // Container(
+                  //   margin: const EdgeInsets.all(10),
+                  //   padding: const EdgeInsets.all(10),
+                  //   decoration: BoxDecoration(
+                  //     border: Border.all(
+                  //       width: 3,
+                  //       color: Colors.blue,
+                  //     ),
+                  //   ),
+                  //   child: Column(
+                  //     children: [
+                  //       // INSTANT
+                  //       ElevatedButton(
+                  //         onPressed: () async {
+                  //           submitForm();
+                  //           NotificationService().instantNotification();
+                  //           clearForm();
+                  //         },
+                  //         child: Text("Instant"),
+                  //       ),
 
-            //       // SCHEDULED
-            //       ElevatedButton(
-            //         onPressed: () async {
-            //           submitForm();
-            //           NotificationService().scheduledNotification();
-            //           clearForm();
-            //         },
-            //         child: Text("Scheduled"),
-            //       ),
+                  //       // IMAGE
+                  //       ElevatedButton(
+                  //         onPressed: () async {
+                  //           submitForm();
+                  //           NotificationService().imageNotification();
+                  //           clearForm();
+                  //         },
+                  //         child: Text("Image"),
+                  //       ),
 
-            //       // CANCEL
-            //       ElevatedButton(
-            //         onPressed: () async {
-            //           NotificationService().cancelNotification();
-            //         },
-            //         child: Text("Cancel"),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+                  //       // STYLISH
+                  //       ElevatedButton(
+                  //         onPressed: () async {
+                  //           submitForm();
+                  //           NotificationService().stylishNotification();
+                  //           clearForm();
+                  //         },
+                  //         child: Text("Stylish"),
+                  //       ),
+
+                  //       // SCHEDULED
+                  //       ElevatedButton(
+                  //         onPressed: () async {
+                  //           submitForm();
+                  //           NotificationService().scheduledNotification();
+                  //           clearForm();
+                  //         },
+                  //         child: Text("Scheduled"),
+                  //       ),
+
+                  //       // CANCEL
+                  //       ElevatedButton(
+                  //         onPressed: () async {
+                  //           NotificationService().cancelNotification();
+                  //         },
+                  //         child: Text("Cancel"),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
