@@ -55,7 +55,12 @@ class _HomePageState extends State<HomePage> {
                 ),
                 decoration: InputDecoration(
                   hintText: "Name",
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.blue.shade100,
                 ),
               ),
             ),

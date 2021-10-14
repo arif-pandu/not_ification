@@ -21,7 +21,7 @@ class NotificationService {
 
     // Setting for android
     AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings("app_icon");
+        AndroidInitializationSettings("ic_launcher");
 
     final InitializationSettings initializationSettings =
         InitializationSettings(android: androidInitializationSettings);
