@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:not_ification/bekap.dart';
 import 'package:not_ification/logic/notification_service.dart';
 import 'package:not_ification/page/homepage.dart';
 
@@ -15,9 +17,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
+      // home: TesTextField(),
     );
   }
 }

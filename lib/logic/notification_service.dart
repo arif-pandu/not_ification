@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:not_ification/controller/main_controller.dart';
 import 'package:get/get.dart';
+import 'package:not_ification/page/calling_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -26,7 +27,15 @@ class NotificationService {
     final InitializationSettings initializationSettings =
         InitializationSettings(android: androidInitializationSettings);
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: (payload) async {
+        if (payload != null) {
+          print(payload);
+        }
+        await Get.off(CallingPage());
+      },
+    );
   }
 
   Future showNotification() async {
@@ -39,6 +48,7 @@ class NotificationService {
       "id",
       "channel",
       channelDescription: "description",
+      enableVibration: true,
     );
 
     var platform = NotificationDetails(android: android);

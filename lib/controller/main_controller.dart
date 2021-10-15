@@ -9,4 +9,7 @@ class MainController extends GetxController {
   int delayDetik = 1;
   int delayMenit = 0;
   int delayJam = 0;
+
+  RxString namaSender = RxString("nama");
+  RxString pesanSender = RxString("Ini pesannya");
 }
