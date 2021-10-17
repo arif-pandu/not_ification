@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:not_ification/controller/main_controller.dart';
 import 'package:not_ification/logic/notification_service.dart';
 import 'package:get/get.dart';
+import 'package:not_ification/page/guide_page.dart';
 import 'package:not_ification/widget/carousel_one.dart';
 import 'package:not_ification/widget/carousel_three.dart';
 import 'package:not_ification/widget/carousel_two.dart';
@@ -131,20 +132,25 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment(1, -1),
             child: Container(
               margin: EdgeInsets.only(top: 50, right: 20),
-              child: Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                  color: fieldColor,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    "?",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(GuidePage());
+                },
+                child: Container(
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    color: fieldColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "?",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                      ),
                     ),
                   ),
                 ),
@@ -157,55 +163,86 @@ class _HomePageState extends State<HomePage> {
               children: [
                 //
                 Container(
-                  height: 100,
+                  height: 90,
                   width: MediaQuery.of(context).size.width * 0.8,
                   decoration: BoxDecoration(
-                    color: fieldColor,
-                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(7.5),
+                    border: Border.all(width: 2, color: textColor),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            margin: EdgeInsets.only(top: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              shape: BoxShape.circle,
+                      Container(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              height: 17,
+                              width: 17,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/logo.png'),
+                                ),
+                              ),
                             ),
-                          ),
+                            Text(
+                              "WhatsAqq",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Expanded(
-                        flex: 5,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      SizedBox(height: 5),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
                               flex: 2,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // Text("Nama"),
-                                  Obx(
-                                    () => Text(
-                                      mainController.namaSender.toString(),
-                                    ),
-                                  )
-                                ],
+                              child: Center(
+                                child: Container(
+                                  height: 33,
+                                  width: 33,
+                                  margin: EdgeInsets.only(top: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
                               ),
                             ),
                             Expanded(
-                              flex: 4,
-                              child: Obx(
-                                () => Text(
-                                  mainController.pesanSender.toString(),
-                                ),
+                              flex: 5,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Obx(
+                                    () => Text(
+                                      mainController.namaSender.toString(),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      mainController.pesanSender.toString(),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
