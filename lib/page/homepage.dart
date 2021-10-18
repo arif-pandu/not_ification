@@ -129,6 +129,17 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           Align(
+            alignment: Alignment(0, 1),
+            child: Container(
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              color: fieldColor,
+              child: Center(
+                child: Text("INI IKLAN"),
+              ),
+            ),
+          ),
+          Align(
             alignment: Alignment(1, -1),
             child: Container(
               margin: EdgeInsets.only(top: 50, right: 20),
@@ -213,6 +224,9 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     color: Colors.grey,
                                     shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/wa_bg.png'),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -227,15 +241,19 @@ class _HomePageState extends State<HomePage> {
                                   Obx(
                                     () => Text(
                                       mainController.namaSender.toString(),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
                                   Obx(
                                     () => Text(
                                       mainController.pesanSender.toString(),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
@@ -414,68 +432,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-
-                // Container(
-                //   margin: const EdgeInsets.all(10),
-                //   padding: const EdgeInsets.all(10),
-                //   decoration: BoxDecoration(
-                //     border: Border.all(
-                //       width: 3,
-                //       color: Colors.blue,
-                //     ),
-                //   ),
-                //   child: Column(
-                //     children: [
-                //       // INSTANT
-                //       ElevatedButton(
-                //         onPressed: () async {
-                //           submitForm();
-                //           NotificationService().instantNotification();
-                //           clearForm();
-                //         },
-                //         child: Text("Instant"),
-                //       ),
-
-                //       // IMAGE
-                //       ElevatedButton(
-                //         onPressed: () async {
-                //           submitForm();
-                //           NotificationService().imageNotification();
-                //           clearForm();
-                //         },
-                //         child: Text("Image"),
-                //       ),
-
-                //       // STYLISH
-                //       ElevatedButton(
-                //         onPressed: () async {
-                //           submitForm();
-                //           NotificationService().stylishNotification();
-                //           clearForm();
-                //         },
-                //         child: Text("Stylish"),
-                //       ),
-
-                //       // SCHEDULED
-                //       ElevatedButton(
-                //         onPressed: () async {
-                //           submitForm();
-                //           NotificationService().scheduledNotification();
-                //           clearForm();
-                //         },
-                //         child: Text("Scheduled"),
-                //       ),
-
-                //       // CANCEL
-                //       ElevatedButton(
-                //         onPressed: () async {
-                //           NotificationService().cancelNotification();
-                //         },
-                //         child: Text("Cancel"),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

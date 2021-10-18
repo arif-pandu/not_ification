@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:not_ification/controller/main_controller.dart';
+import 'dart:math' as math;
 
 class CallingPage extends StatefulWidget {
   const CallingPage({Key? key}) : super(key: key);
@@ -15,13 +18,58 @@ class _CallingPageState extends State<CallingPage> {
   bool isMicSelected = true;
   bool isCameraSelected = false;
   bool isSpeakerSelected = false;
+
+  // BUAT TIMER
+  Timer? timer;
+  int seconds = 0;
+  int minutes = 0;
+  int hours = 0;
+  //
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    // ignore: unnecessary_new
+    timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        setState(() {
+          if (seconds < 0) {
+            timer.cancel();
+          } else {
+            seconds = seconds + 1;
+            if (seconds > 59) {
+              minutes += 1;
+              seconds = 0;
+              if (minutes > 59) {
+                hours += 1;
+                minutes = 0;
+              }
+            }
+          }
+        });
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     MainController mainController = Get.put(MainController());
     return Scaffold(
       backgroundColor: Color(0xff36474F),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             padding: EdgeInsets.only(top: 37),
@@ -73,8 +121,9 @@ class _CallingPageState extends State<CallingPage> {
                 Container(
                   margin: EdgeInsets.only(bottom: 5),
                   child: Text(
-                    "10:2:22",
+                    "$hours:$minutes:$seconds",
                     style: TextStyle(
+                      letterSpacing: 2,
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                     ),
@@ -88,24 +137,45 @@ class _CallingPageState extends State<CallingPage> {
                 MediaQuery.of(context).size.height * (1 - (1 * (207 / 640))),
             width: MediaQuery.of(context).size.width,
             color: Colors.transparent,
-            child: Align(
-              alignment: Alignment(0, 0.8),
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Icon(
-                      Icons.phone,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                      image: AssetImage('assets/wa_bg.png'),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),
+                Align(
+                  alignment: Alignment(0, 0.8),
+                  child: GestureDetector(
+                    // CLOSE THE APP
+                    onTap: () {
+                      exit(0);
+                    },
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Transform.rotate(
+                          angle: math.pi / 36 * 27,
+                          child: Icon(
+                            Icons.phone,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Container(
@@ -116,23 +186,24 @@ class _CallingPageState extends State<CallingPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isSpeakerSelected != isSpeakerSelected;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 100),
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isSpeakerSelected == true
-                            ? Colors.white.withOpacity(0.2)
-                            : Colors.transparent,
-                      ),
-                      child: Center(
+                  AnimatedContainer(
+                    curve: Curves.fastOutSlowIn,
+                    duration: Duration(milliseconds: 400),
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isSpeakerSelected
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent,
+                    ),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isSpeakerSelected = !isSpeakerSelected;
+                          });
+                        },
                         child: Icon(
                           Icons.music_note,
                           size: 30,
@@ -141,24 +212,25 @@ class _CallingPageState extends State<CallingPage> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isCameraSelected != isCameraSelected;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 100),
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isSpeakerSelected == true
-                              ? Colors.white.withOpacity(0.2)
-                              : Colors.transparent,
-                        ),
-                        child: Center(
+                  AnimatedContainer(
+                    curve: Curves.fastOutSlowIn,
+                    duration: Duration(milliseconds: 400),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isCameraSelected == true
+                            ? Colors.white.withOpacity(0.2)
+                            : Colors.transparent,
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isCameraSelected = !isCameraSelected;
+                            });
+                          },
                           child: Icon(
                             Icons.camera_alt_rounded,
                             size: 30,
@@ -168,24 +240,25 @@ class _CallingPageState extends State<CallingPage> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isMicSelected != isMicSelected;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 100),
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: isSpeakerSelected == true
-                              ? Colors.white.withOpacity(0.2)
-                              : Colors.transparent,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
+                  AnimatedContainer(
+                    curve: Curves.fastOutSlowIn,
+                    duration: Duration(milliseconds: 400),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: isMicSelected == true
+                            ? Colors.white.withOpacity(0.2)
+                            : Colors.transparent,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isMicSelected = !isMicSelected;
+                            });
+                          },
                           child: Icon(
                             Icons.mic,
                             size: 30,
