@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:not_ification/controller/main_controller.dart';
 import 'package:get/get.dart';
@@ -42,6 +40,7 @@ class NotificationService {
       initializationSettings,
       onSelectNotification: (payload) async {
         if (payload != null) {
+          // ignore: avoid_print
           print(payload);
         }
         await Get.off(CallingPage());
@@ -104,16 +103,10 @@ class NotificationService {
 
   // Image Notification
   Future showNotification() async {
-    var bigPicture = BigPictureStyleInformation(
-      DrawableResourceAndroidBitmap("ic_launcher"),
-      largeIcon: DrawableResourceAndroidBitmap("ic_launcher"),
-      contentTitle: "Demo Image Notification",
-      summaryText: "This is Summary Text",
-      htmlFormatContent: true,
-      htmlFormatContentTitle: true,
-    );
-
-    // SINI
+    // TimeZone Configuration
+    tz.initializeTimeZones();
+    final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName!));
     //
     List<Message> message = [
       Message(
@@ -132,9 +125,6 @@ class NotificationService {
       channelDescription: "description",
       channelShowBadge: true,
       icon: 'ic_launcher',
-      // largeIcon: DrawableResourceAndroidBitmap('ic_launcher'),
-      // styleInformation: bigPicture,
-      // styleInformation: InboxStyleInformation(["saya", "pesan"]),
       styleInformation: MessagingStyleInformation(
         Person(
           bot: false,
@@ -150,12 +140,21 @@ class NotificationService {
 
     var platform = NotificationDetails(android: android);
 
-    await flutterLocalNotificationsPlugin.show(
-      1,
-      "mainController.namaPengirim",
-      "mainController.isiPesan",
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      3,
+      mainController.namaPengirim,
+      mainController.isiPesan,
+      tz.TZDateTime.now(tz.local).add(
+        Duration(
+          seconds: mainController.delayDetik,
+          minutes: mainController.delayMenit,
+          hours: mainController.delayJam,
+        ),
+      ),
       platform,
-      payload: "Wecome to demo App, Image Message Section",
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:flutter_local_notifications/src/platform_specifics/android/person.dart';
 
 class MainController extends GetxController {
   String? namaPengirim;
@@ -13,10 +12,4 @@ class MainController extends GetxController {
 
   RxString namaSender = RxString("name");
   RxString pesanSender = RxString("This will be the message");
-
-  // Person? namaOrang = Person(
-  //   bot: false,
-  //   name: namaPengirim!,
-
-  // );
 }

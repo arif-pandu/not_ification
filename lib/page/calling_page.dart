@@ -52,6 +52,7 @@ class _CallingPageState extends State<CallingPage> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     startTimer();
@@ -59,6 +60,7 @@ class _CallingPageState extends State<CallingPage> {
 
   @override
   void dispose() {
+    // ignore: todo
     // TODO: implement dispose
     super.dispose();
   }

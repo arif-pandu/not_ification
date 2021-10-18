@@ -1,14 +1,19 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:not_ification/controller/main_controller.dart';
 import 'package:not_ification/logic/notification_service.dart';
 import 'package:get/get.dart';
-import 'package:not_ification/page/guide_page.dart';
-import 'package:not_ification/widget/carousel_one.dart';
-import 'package:not_ification/widget/carousel_three.dart';
-import 'package:not_ification/widget/carousel_two.dart';
+import 'package:not_ification/theme.dart';
+import 'package:not_ification/widget/carousel_widget/carousel_one.dart';
+import 'package:not_ification/widget/carousel_widget/carousel_two.dart';
+import 'package:not_ification/widget/carousel_widget/carousel_three.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:not_ification/widget/homepage_widget/help_button_widget.dart';
+import 'package:not_ification/widget/homepage_widget/input_message.dart';
+import 'package:not_ification/widget/homepage_widget/input_name.dart';
+import 'package:not_ification/widget/homepage_widget/live_view_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,10 +23,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  BannerAd banner = BannerAd(
+    // adUnitId: "ca-app-pub-2026236094667216/5966808901",
+    adUnitId:
+        "ca-app-pub-3940256099942544/6300978111", //ini yg test nanti diganti
+    size: AdSize.banner,
+    request: AdRequest(),
+    listener: BannerAdListener(),
+  );
+
+  final BannerAdListener listener = BannerAdListener(
+    // Called when an ad is successfully received.
+    onAdLoaded: (Ad ad) => print('Ad loaded.'),
+    // Called when an ad request failed.
+    onAdFailedToLoad: (Ad ad, LoadAdError error) {
+      // Dispose the ad here to free resources.
+      ad.dispose();
+      print('Ad failed to load: $error');
+    },
+    // Called when an ad opens an overlay that covers the screen.
+    onAdOpened: (Ad ad) => print('Ad opened.'),
+    // Called when an ad removes an overlay that covers the screen.
+    onAdClosed: (Ad ad) => print('Ad closed.'),
+    // Called when an impression occurs on the ad.
+    onAdImpression: (Ad ad) => print('Ad impression.'),
+  );
+
   bool timerDipakai = false;
-  Color bgColor = Color(0xffFEFFDE);
-  Color fieldColor = Color(0xff91C788);
-  Color textColor = Color(0xff464F41);
+
   TextEditingController textControllerNama = TextEditingController();
   TextEditingController textControllerPesan = TextEditingController();
 
@@ -40,14 +69,6 @@ class _HomePageState extends State<HomePage> {
     }
 
     showDialogAlert(context) {
-      // set up the button
-      Widget okButton = ElevatedButton(
-        child: Text("OK"),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      );
-      // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         backgroundColor: bgColor,
         title: Text(
@@ -58,7 +79,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-      // show the dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -68,14 +88,6 @@ class _HomePageState extends State<HomePage> {
     }
 
     showDialogAlertPesan(context) {
-      // set up the button
-      Widget okButton = ElevatedButton(
-        child: Text("OK"),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      );
-      // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         backgroundColor: bgColor,
         title: Text(
@@ -86,7 +98,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-      // show the dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -96,14 +107,6 @@ class _HomePageState extends State<HomePage> {
     }
 
     showDialogAlertNama(context) {
-      // set up the button
-      Widget okButton = ElevatedButton(
-        child: Text("OK"),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      );
-      // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         backgroundColor: bgColor,
         title: Text(
@@ -114,7 +117,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-      // show the dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -135,7 +137,7 @@ class _HomePageState extends State<HomePage> {
               width: MediaQuery.of(context).size.width,
               color: fieldColor,
               child: Center(
-                child: Text("INI IKLAN"),
+                child: AdWidget(ad: banner),
               ),
             ),
           ),
@@ -143,178 +145,26 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment(1, -1),
             child: Container(
               margin: EdgeInsets.only(top: 50, right: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.to(GuidePage());
-                },
-                child: Container(
-                  height: 35,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    color: fieldColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "?",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              child: WidgetHelpButton(),
             ),
           ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //
-                Container(
-                  height: 90,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(7.5),
-                    border: Border.all(width: 2, color: textColor),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              height: 17,
-                              width: 17,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/logo.png'),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "WhatsAqq",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: Container(
-                                  height: 33,
-                                  width: 33,
-                                  margin: EdgeInsets.only(top: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: AssetImage('assets/wa_bg.png'),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Obx(
-                                    () => Text(
-                                      mainController.namaSender.toString(),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  Obx(
-                                    () => Text(
-                                      mainController.pesanSender.toString(),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                //LIVE DEMO VIEW
+                WidgetLiveView(mainController: mainController),
+
                 SizedBox(height: 50),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: TextField(
-                      controller: textControllerNama,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: textColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: "Name",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: fieldColor,
-                      ),
-                      onChanged: (text) {
-                        mainController.namaSender = RxString(text);
-                      }),
+                // Input Name
+                WidgetInputName(
+                  textControllerNama: textControllerNama,
+                  mainController: mainController,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: TextField(
-                      controller: textControllerPesan,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: textColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: "Message",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: fieldColor,
-                      ),
-                      onChanged: (text) {
-                        mainController.pesanSender = RxString(text);
-                      }),
+                // Input Name
+                WidgetInputMessage(
+                  textControllerPesan: textControllerPesan,
+                  mainController: mainController,
                 ),
 
                 Padding(

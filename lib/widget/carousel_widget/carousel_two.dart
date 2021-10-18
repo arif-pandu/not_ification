@@ -94,7 +94,6 @@ class _CarrouselTwoState extends State<CarrouselTwo> {
           setState(
             () {
               mainController.delayMenit = index;
-              print(mainController.delayMenit.toString());
             },
           );
         },
