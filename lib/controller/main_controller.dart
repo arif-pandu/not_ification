@@ -4,7 +4,7 @@ class MainController extends GetxController {
   String? namaPengirim;
   String? isiPesan;
 
-  bool? pakaiTimer;
+  bool colorSwitchMode = false;
 
   int delayDetik = 1;
   int delayMenit = 0;

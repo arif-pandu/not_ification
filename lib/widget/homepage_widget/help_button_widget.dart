@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:not_ification/page/guide_page.dart';
 import 'package:not_ification/theme.dart';
+import 'package:not_ification/controller/main_controller.dart';
 
 class WidgetHelpButton extends StatelessWidget {
   const WidgetHelpButton({
@@ -12,6 +13,7 @@ class WidgetHelpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MainController mainController = Get.put(MainController());
     return GestureDetector(
       onTap: () {
         Get.to(GuidePage());
@@ -20,7 +22,9 @@ class WidgetHelpButton extends StatelessWidget {
         height: 35,
         width: 35,
         decoration: BoxDecoration(
-          color: fieldColor,
+          color: mainController.colorSwitchMode == false
+              ? fieldColor
+              : darkFieldColor,
           shape: BoxShape.circle,
         ),
         child: Center(
@@ -29,7 +33,9 @@ class WidgetHelpButton extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: textColor,
+              color: mainController.colorSwitchMode == false
+                  ? textColor
+                  : darkTextColor,
             ),
           ),
         ),

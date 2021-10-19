@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:not_ification/controller/main_controller.dart';
 import 'dart:math' as math;
 
+import 'package:not_ification/theme.dart';
+
 class CallingPage extends StatefulWidget {
   const CallingPage({Key? key}) : super(key: key);
 
@@ -77,7 +79,8 @@ class _CallingPageState extends State<CallingPage> {
             padding: EdgeInsets.only(top: 37),
             height: MediaQuery.of(context).size.height * 130 / 640,
             width: MediaQuery.of(context).size.width,
-            color: Color(0xff00786C),
+            color: darkFieldColor,
+            // color: Color(0xff00786C),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -162,7 +165,7 @@ class _CallingPageState extends State<CallingPage> {
                       height: 60,
                       width: 60,
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: Colors.red[600],
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -183,29 +186,30 @@ class _CallingPageState extends State<CallingPage> {
           Container(
             height: MediaQuery.of(context).size.height * 77 / 640,
             width: MediaQuery.of(context).size.width,
-            color: Color(0xff00786C),
+            // color: Color(0xff00786C),
+            color: darkFieldColor,
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  AnimatedContainer(
-                    curve: Curves.fastOutSlowIn,
-                    duration: Duration(milliseconds: 400),
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isSpeakerSelected
-                          ? Colors.white.withOpacity(0.2)
-                          : Colors.transparent,
-                    ),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isSpeakerSelected = !isSpeakerSelected;
-                          });
-                        },
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isSpeakerSelected = !isSpeakerSelected;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      curve: Curves.fastOutSlowIn,
+                      duration: Duration(milliseconds: 200),
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isSpeakerSelected
+                            ? Colors.white.withOpacity(0.2)
+                            : Colors.transparent,
+                      ),
+                      child: Center(
                         child: Icon(
                           Icons.music_note,
                           size: 30,
@@ -214,25 +218,25 @@ class _CallingPageState extends State<CallingPage> {
                       ),
                     ),
                   ),
-                  AnimatedContainer(
-                    curve: Curves.fastOutSlowIn,
-                    duration: Duration(milliseconds: 400),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isCameraSelected == true
-                            ? Colors.white.withOpacity(0.2)
-                            : Colors.transparent,
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isCameraSelected = !isCameraSelected;
-                            });
-                          },
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isCameraSelected = !isCameraSelected;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      curve: Curves.fastOutSlowIn,
+                      duration: Duration(milliseconds: 200),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isCameraSelected == true
+                              ? Colors.white.withOpacity(0.2)
+                              : Colors.transparent,
+                        ),
+                        child: Center(
                           child: Icon(
                             Icons.camera_alt_rounded,
                             size: 30,
@@ -242,25 +246,25 @@ class _CallingPageState extends State<CallingPage> {
                       ),
                     ),
                   ),
-                  AnimatedContainer(
-                    curve: Curves.fastOutSlowIn,
-                    duration: Duration(milliseconds: 400),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: isMicSelected == true
-                            ? Colors.white.withOpacity(0.2)
-                            : Colors.transparent,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isMicSelected = !isMicSelected;
-                            });
-                          },
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isMicSelected = !isMicSelected;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      curve: Curves.fastOutSlowIn,
+                      duration: Duration(milliseconds: 200),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: isMicSelected == true
+                              ? Colors.white.withOpacity(0.2)
+                              : Colors.transparent,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
                           child: Icon(
                             Icons.mic,
                             size: 30,

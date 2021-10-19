@@ -11,8 +11,8 @@ import 'package:not_ification/widget/carousel_widget/carousel_two.dart';
 import 'package:not_ification/widget/carousel_widget/carousel_three.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:not_ification/widget/homepage_widget/help_button_widget.dart';
-import 'package:not_ification/widget/homepage_widget/input_message.dart';
-import 'package:not_ification/widget/homepage_widget/input_name.dart';
+import 'package:not_ification/widget/homepage_widget/input_message_widget.dart';
+import 'package:not_ification/widget/homepage_widget/input_name_widget.dart';
 import 'package:not_ification/widget/homepage_widget/live_view_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -49,10 +49,18 @@ class _HomePageState extends State<HomePage> {
     onAdImpression: (Ad ad) => print('Ad impression.'),
   );
 
-  bool timerDipakai = false;
+  bool colorMode = false;
 
   TextEditingController textControllerNama = TextEditingController();
   TextEditingController textControllerPesan = TextEditingController();
+
+  @override
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    banner.load();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +78,15 @@ class _HomePageState extends State<HomePage> {
 
     showDialogAlert(context) {
       AlertDialog alert = AlertDialog(
-        backgroundColor: bgColor,
+        backgroundColor:
+            mainController.colorSwitchMode == false ? bgColor : darkFieldColor,
         title: Text(
           "Fill the Name and Message please",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: textColor,
+            color: mainController.colorSwitchMode == false
+                ? textColor
+                : darkTextColor,
           ),
         ),
       );
@@ -89,12 +100,15 @@ class _HomePageState extends State<HomePage> {
 
     showDialogAlertPesan(context) {
       AlertDialog alert = AlertDialog(
-        backgroundColor: bgColor,
+        backgroundColor:
+            mainController.colorSwitchMode == false ? bgColor : darkFieldColor,
         title: Text(
           "Fill the Message please",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: textColor,
+            color: mainController.colorSwitchMode == false
+                ? textColor
+                : darkTextColor,
           ),
         ),
       );
@@ -108,12 +122,15 @@ class _HomePageState extends State<HomePage> {
 
     showDialogAlertNama(context) {
       AlertDialog alert = AlertDialog(
-        backgroundColor: bgColor,
+        backgroundColor:
+            mainController.colorSwitchMode == false ? bgColor : darkFieldColor,
         title: Text(
           "Fill the Name please",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: textColor,
+            color: mainController.colorSwitchMode == false
+                ? textColor
+                : darkTextColor,
           ),
         ),
       );
@@ -126,7 +143,8 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor:
+          mainController.colorSwitchMode == false ? bgColor : darkBgColor,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -135,17 +153,43 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               height: 50,
               width: MediaQuery.of(context).size.width,
-              color: fieldColor,
+              // color: mainController.colorSwitchMode == false
+              //     ? fieldColor
+              //     : darkFieldColor,
+              color: Colors.transparent,
               child: Center(
                 child: AdWidget(ad: banner),
               ),
             ),
           ),
+          // HELP BUTTON
           Align(
             alignment: Alignment(1, -1),
             child: Container(
               margin: EdgeInsets.only(top: 50, right: 20),
               child: WidgetHelpButton(),
+            ),
+          ),
+          // CHANGE COLOR MODE BUTTON
+          Align(
+            alignment: Alignment(-1, -1),
+            child: Container(
+              margin: EdgeInsets.only(top: 50, left: 20),
+              child: GestureDetector(
+                onTap: () {
+                  setState(
+                    () {
+                      colorMode = !colorMode;
+                      mainController.colorSwitchMode = colorMode;
+                    },
+                  );
+                },
+                child: Icon(
+                  colorMode == true ? Icons.dark_mode : Icons.light_mode,
+                  size: 30,
+                  color: colorMode == true ? darkFieldColor : fieldColor,
+                ),
+              ),
             ),
           ),
           Center(
@@ -179,7 +223,9 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "sec",
                             style: TextStyle(
-                              color: textColor,
+                              color: mainController.colorSwitchMode == false
+                                  ? textColor
+                                  : darkFieldColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -198,7 +244,9 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "min",
                             style: TextStyle(
-                              color: textColor,
+                              color: mainController.colorSwitchMode == false
+                                  ? textColor
+                                  : darkFieldColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -217,7 +265,9 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "hour",
                             style: TextStyle(
-                              color: textColor,
+                              color: mainController.colorSwitchMode == false
+                                  ? textColor
+                                  : darkFieldColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -267,7 +317,9 @@ class _HomePageState extends State<HomePage> {
                     height: 50,
                     width: 100,
                     decoration: BoxDecoration(
-                      color: fieldColor,
+                      color: mainController.colorSwitchMode == false
+                          ? fieldColor
+                          : darkFieldColor,
                       borderRadius: BorderRadius.circular(7.5),
                     ),
                     child: Center(
@@ -276,7 +328,9 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          color: textColor,
+                          color: mainController.colorSwitchMode == false
+                              ? textColor
+                              : darkTextColor,
                         ),
                       ),
                     ),

@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:not_ification/controller/main_controller.dart';
+import 'package:not_ification/theme.dart';
 
 class CarouselOne extends StatefulWidget {
   const CarouselOne({Key? key}) : super(key: key);
@@ -16,8 +17,6 @@ class _CarouselOneState extends State<CarouselOne> {
   @override
   Widget build(BuildContext context) {
     MainController mainController = Get.put(MainController());
-    Color fieldColor = Color(0xff91C788);
-    Color textColor = Color(0xff464F41);
 
     List waktuDetik = [
       00,
@@ -104,7 +103,9 @@ class _CarouselOneState extends State<CarouselOne> {
           height: 50,
           width: 50,
           decoration: BoxDecoration(
-            color: fieldColor,
+            color: mainController.colorSwitchMode == false
+                ? fieldColor
+                : darkFieldColor,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Center(
@@ -112,7 +113,9 @@ class _CarouselOneState extends State<CarouselOne> {
               waktuDetik[index].toString(),
               style: TextStyle(
                 fontSize: 20,
-                color: textColor,
+                color: mainController.colorSwitchMode == false
+                    ? textColor
+                    : darkTextColor,
                 fontWeight: FontWeight.bold,
               ),
             ),

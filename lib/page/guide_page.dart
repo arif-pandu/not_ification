@@ -1,30 +1,36 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:not_ification/theme.dart';
+import 'package:not_ification/controller/main_controller.dart';
 
-class GuidePage extends StatelessWidget {
+class GuidePage extends StatefulWidget {
   const GuidePage({Key? key}) : super(key: key);
 
   @override
+  State<GuidePage> createState() => _GuidePageState();
+}
+
+class _GuidePageState extends State<GuidePage> {
+  MainController mainController = Get.put(MainController());
+  @override
   Widget build(BuildContext context) {
-    Color bgColor = Color(0xffFEFFDE);
-    Color fieldColor = Color(0xff91C788);
-    Color textColor = Color(0xff464F41);
     TextStyle styleJudul = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
-      color: textColor,
+      color:
+          mainController.colorSwitchMode == false ? textColor : darkTextColor,
     );
     TextStyle styleIsi = TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w400,
-      color: textColor,
+      color:
+          mainController.colorSwitchMode == false ? textColor : darkTextColor,
     );
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor:
+          mainController.colorSwitchMode == false ? bgColor : darkBgColor,
       body: Stack(
         children: [
           Center(
@@ -36,14 +42,18 @@ class GuidePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w500,
-                    color: textColor,
+                    color: mainController.colorSwitchMode == false
+                        ? textColor
+                        : darkFieldColor,
                   ),
                 ),
                 Container(
                   // height: MediaQuery.of(context).size.height * 0.8,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
-                    color: fieldColor,
+                    color: mainController.colorSwitchMode == false
+                        ? fieldColor
+                        : darkFieldColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -136,7 +146,9 @@ class GuidePage extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(top: 50, left: 10),
                 decoration: BoxDecoration(
-                  color: fieldColor,
+                  color: mainController.colorSwitchMode == false
+                      ? fieldColor
+                      : darkFieldColor,
                   shape: BoxShape.circle,
                 ),
                 child: Padding(
@@ -144,7 +156,9 @@ class GuidePage extends StatelessWidget {
                   child: Icon(
                     Icons.arrow_back,
                     size: 27,
-                    color: textColor,
+                    color: mainController.colorSwitchMode == false
+                        ? textColor
+                        : darkTextColor,
                   ),
                 ),
               ),
