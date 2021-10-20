@@ -13,17 +13,6 @@ class NotificationService {
 
   MainController mainController = Get.put(MainController());
 
-  // List<Message> message = [
-  //   Message(
-  //     "halo",
-  //     DateTime.now(),
-  //     Person(
-  //       bot: false,
-  //       name: "nama orang",
-  //     ),
-  //   ),
-  // ];
-
   // INITIALISATION
   Future initialize() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

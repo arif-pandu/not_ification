@@ -14,6 +14,7 @@ import 'package:not_ification/widget/homepage_widget/help_button_widget.dart';
 import 'package:not_ification/widget/homepage_widget/input_message_widget.dart';
 import 'package:not_ification/widget/homepage_widget/input_name_widget.dart';
 import 'package:not_ification/widget/homepage_widget/live_view_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -53,6 +54,12 @@ class _HomePageState extends State<HomePage> {
 
   TextEditingController textControllerNama = TextEditingController();
   TextEditingController textControllerPesan = TextEditingController();
+
+  final ImagePicker picker = ImagePicker();
+
+  insertImage() async {
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  }
 
   @override
   void initState() {
@@ -284,57 +291,90 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
 
-                GestureDetector(
-                  onTap: () {
-                    if (textControllerNama.text.isNotEmpty &&
-                        textControllerPesan.text.isNotEmpty) {
-                      submitForm();
-                      NotificationService().showNotification();
-                      clearForm();
-                      print("Detik : " +
-                          mainController.delayDetik.toString() +
-                          " Menit : " +
-                          mainController.delayMenit.toString() +
-                          " Jam : " +
-                          mainController.delayJam.toString());
-                      setState(() {
-                        mainController.namaSender = RxString("nama");
-                        mainController.pesanSender = RxString("pesan");
-                      });
-                    } else if (textControllerNama.text.isEmpty &&
-                        textControllerPesan.text.isEmpty) {
-                      showDialogAlert(context);
-                    } else if (textControllerNama.text.isNotEmpty &&
-                        textControllerPesan.text.isEmpty) {
-                      showDialogAlertPesan(context);
-                    } else if (textControllerNama.text.isEmpty &&
-                        textControllerPesan.text.isNotEmpty) {
-                      showDialogAlertNama(context);
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(20),
-                    height: 50,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      color: mainController.colorSwitchMode == false
-                          ? fieldColor
-                          : darkFieldColor,
-                      borderRadius: BorderRadius.circular(7.5),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "SEND",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        height: 50,
+                        width: 100,
+                        decoration: BoxDecoration(
                           color: mainController.colorSwitchMode == false
-                              ? textColor
-                              : darkTextColor,
+                              ? fieldColor
+                              : darkFieldColor,
+                          borderRadius: BorderRadius.circular(7.5),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "INSERT IMAGE",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: mainController.colorSwitchMode == false
+                                  ? textColor
+                                  : darkTextColor,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        if (textControllerNama.text.isNotEmpty &&
+                            textControllerPesan.text.isNotEmpty) {
+                          submitForm();
+                          NotificationService().showNotification();
+                          clearForm();
+                          print("Detik : " +
+                              mainController.delayDetik.toString() +
+                              " Menit : " +
+                              mainController.delayMenit.toString() +
+                              " Jam : " +
+                              mainController.delayJam.toString());
+                          setState(() {
+                            mainController.namaSender = RxString("nama");
+                            mainController.pesanSender = RxString("pesan");
+                          });
+                        } else if (textControllerNama.text.isEmpty &&
+                            textControllerPesan.text.isEmpty) {
+                          showDialogAlert(context);
+                        } else if (textControllerNama.text.isNotEmpty &&
+                            textControllerPesan.text.isEmpty) {
+                          showDialogAlertPesan(context);
+                        } else if (textControllerNama.text.isEmpty &&
+                            textControllerPesan.text.isNotEmpty) {
+                          showDialogAlertNama(context);
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        height: 50,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: mainController.colorSwitchMode == false
+                              ? fieldColor
+                              : darkFieldColor,
+                          borderRadius: BorderRadius.circular(7.5),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "SEND",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: mainController.colorSwitchMode == false
+                                  ? textColor
+                                  : darkTextColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

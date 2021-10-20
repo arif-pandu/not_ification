@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:not_ification/controller/main_controller.dart';
+import 'package:not_ification/page/chat_page.dart';
 import 'dart:math' as math;
 
 import 'package:not_ification/theme.dart';
@@ -87,9 +88,14 @@ class _CallingPageState extends State<CallingPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(
-                      Icons.keyboard_arrow_down_sharp,
-                      color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(ChatPage());
+                      },
+                      child: Icon(
+                        Icons.keyboard_arrow_down_sharp,
+                        color: Colors.white,
+                      ),
                     ),
                     Row(
                       children: [
